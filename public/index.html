@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="OCodesdeploy - quản lý dự án và triển khai hosting.">
+  <title>OCodesdeploy — Hosting Platform</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">O</span><span>OCodes<span class="accent">deploy</span></span></a>
+    <p class="nav-label">WORKSPACE</p>
+    <a class="nav-item active" href="#overview">◫ <span>Tổng quan</span></a>
+    <a class="nav-item" href="#projects">▦ <span>Dự án</span></a>
+    <a class="nav-item" href="#deployments">↗ <span>Triển khai</span></a>
+    <a class="nav-item" href="#domains">◎ <span>Tên miền</span></a>
+    <a class="nav-item" href="#storage">▤ <span>Lưu trữ</span></a>
+    <div class="sidebar-bottom"><span class="status-dot"></span> Bộ khung nền tảng <small>v0.1.0</small></div>
+  </aside>
+  <main class="main" id="overview">
+    <header class="topbar"><div><p class="eyebrow">WORKSPACE / OVERVIEW</p><h1>Trung tâm triển khai</h1></div><div class="avatar">Z</div></header>
+    <section class="welcome"><div><p class="eyebrow light">HOSTING WORKSPACE</p><h2>Đưa ý tưởng lên mạng.</h2><p>Quản lý mã nguồn, bản build và triển khai dự án tại một nơi.</p></div><span class="welcome-orb">O</span></section>
+    <section class="metrics">
+      <article class="metric"><span>Dự án</span><strong id="project-count">—</strong><small>Đọc từ API khi đã cấu hình</small></article>
+      <article class="metric"><span>Đang hoạt động</span><strong>—</strong><small>Sẽ cập nhật khi có pipeline</small></article>
+      <article class="metric"><span>Trạng thái API</span><strong id="api-status">Chưa kiểm tra</strong><small id="api-detail">Nhấn kiểm tra kết nối</small></article>
+    </section>
+    <section class="section-head" id="projects"><div><h2>Dự án gần đây</h2><p>Các repository và website được quản lý trong workspace.</p></div><button id="check-api" class="button secondary">Kiểm tra API</button></section>
+    <section class="project-panel"><div class="table-head"><span>TÊN DỰ ÁN</span><span>NGUỒN</span><span>TRẠNG THÁI</span></div><div id="project-list" class="empty-state"><div class="empty-icon">▧</div><strong>Chưa có dự án nào được kết nối</strong><p>Giai đoạn tiếp theo sẽ thêm chức năng kết nối repository và tạo dự án.</p></div></section>
+    <footer>OCodesdeploy · Bộ khung khởi đầu · Chưa kết nối tài khoản Cloudflare</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
