@@ -1,0 +1,14 @@
+{
+  "name": "ocodesdeploy",
+  "private": true,
+  "version": "0.1.0",
+  "description": "OCodesdeploy multi-project hosting platform scaffold",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler types --check"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
