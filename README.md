@@ -1,43 +1,35 @@
-# OCodesdeploy
+# OCodesDeploy
 
-Nền tảng quản lý triển khai nhiều dự án, xây dựng theo từng giai đoạn trên Cloudflare và GitHub.
+Nền tảng quản lý và triển khai nhiều dự án, bắt đầu từ website tĩnh + API trên Cloudflare Workers và D1.
 
-## Trạng thái hiện tại
+## Trạng thái
 
-Đây là bộ khung khởi đầu, **chưa phải dịch vụ hosting đã triển khai**. Giao diện dashboard là nền móng UI; API Worker cung cấp health check và endpoint mẫu. Chưa có xác thực người dùng, quy trình build/deploy tự động, sandbox chạy code tùy ý hoặc kết nối Cloudflare account.
+Đây là bộ khung kỹ thuật đang được triển khai từng bước. Chưa được coi là dịch vụ hosting production cho tới khi database được tạo, migration chạy, Worker deploy và URL được kiểm tra thành công.
 
 ## Cấu trúc
 
-- `public/`: dashboard frontend tĩnh.
-- `worker/`: Cloudflare Worker API.
+- `public/`: dashboard frontend.
+- `worker/index.js`: API và bộ định tuyến.
 - `db/migrations/`: schema D1.
-- `wrangler.jsonc`: cấu hình triển khai; cần điền D1 database ID trước khi deploy.
+- `wrangler.jsonc`: cấu hình Worker, static assets và D1.
 
-## Chạy API cục bộ
+## Triển khai
 
-1. Cài Node.js LTS và npm.
+1. Cài Node.js LTS trên máy tính hoặc môi trường phát triển.
 2. Chạy `npm install`.
-3. Chạy `npm run dev`.
-4. Mở `http://localhost:8787/api/health`.
+3. Tạo D1 database tên `ocodesdeploy-db` trong Cloudflare.
+4. Sao chép ID database thật vào `wrangler.jsonc`, thay `REPLACE_WITH_D1_DATABASE_ID`.
+5. Chạy migration local: `npx wrangler d1 migrations apply ocodesdeploy-db --local`.
+6. Đăng nhập Wrangler: `npx wrangler login`.
+7. Chạy migration remote: `npx wrangler d1 migrations apply ocodesdeploy-db --remote`.
+8. Deploy: `npm run deploy`.
+9. Mở URL `workers.dev` được Wrangler trả về và kiểm tra `/api/health`.
 
-## Thiết lập D1
+Dashboard và API được phục vụ cùng một Worker để tránh cấu hình CORS giữa hai domain.
 
-1. Tạo database tên `ocodesdeploy-db` trong Cloudflare.
-2. Thay `REPLACE_WITH_D1_DATABASE_ID` trong `wrangler.jsonc` bằng ID thật.
-3. Chạy `npx wrangler d1 migrations apply ocodesdeploy-db --local` để thử local.
-4. Khi đã đăng nhập Cloudflare CLI, chạy `npx wrangler d1 migrations apply ocodesdeploy-db --remote`.
-5. Chạy `npm run deploy`.
+## Bảo mật và giới hạn
 
-Không đưa API token hoặc secret vào Git. Dùng `npx wrangler secret put SECRET_NAME` để lưu secret.
-
-## Lộ trình
-
-1. Dashboard và API nền tảng.
-2. Đăng nhập, phân quyền và lưu project metadata vào D1.
-3. Kết nối GitHub OAuth/App và triển khai Pages/Workers.
-4. Logs, biến môi trường, tên miền và quản lý file R2.
-5. AI code assistant và sandbox biệt lập có giới hạn tài nguyên.
-
-## Giới hạn bảo mật
-
-Không chạy mã không tin cậy trực tiếp trong Worker API. Sandbox cần được cô lập riêng và không được cấp secrets của nền tảng.
+- Không commit API token, mật khẩu hoặc file `.dev.vars`.
+- Chưa có xác thực/ủy quyền đa người dùng; không mở các thao tác quản trị cho người dùng công khai.
+- Không chạy mã người dùng không tin cậy trực tiếp trong Worker API. Sandbox cần runtime cô lập riêng, hạn mức CPU/RAM/thời gian và không được tiếp cận secrets của nền tảng.
+- Workers phù hợp website/API serverless; ứng dụng cần tiến trình Node.js chạy liên tục hoặc Docker cần một runtime riêng.
